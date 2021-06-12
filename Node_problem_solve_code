@@ -1,0 +1,301 @@
+I can´t install nodemon globally, “nodemon” not recognized
+Asked 7 years, 10 months ago
+Active 1 month ago
+Viewed 85k times
+
+Report this ad
+
+50
+
+
+19
+I want to use nodemon for monitoring my node.js app's, then I execute the next line command:
+
+npm install -g nodemon 
+or
+
+npm install nodemon -g
+When I move to my app folder and try to to
+
+nodemon app.js
+The system tells to the next:
+
+"nodemon 'is not recognized as an internal or external command, program or batch file.
+
+node.js
+nodemon
+Share
+Improve this question
+Follow
+edited May 9 at 12:20
+
+Ali Nem
+4,25011 gold badge3838 silver badges3737 bronze badges
+asked Jul 31 '13 at 16:33
+
+RMontes13
+1,97233 gold badges1212 silver badges2222 bronze badges
+You can follow my answer. Here is the link - Answer – Raj Kumar Sep 1 '20 at 14:22
+Add a comment
+13 Answers
+
+136
+
+Since node prefix is not in the PATH ENV variable , any of the globally installed modules are not getting recognized.
+
+Please try this.
+
+Open cmd prompt
+
+npm config get prefix
+
+append the resulting path to PATH env variable.
+
+Now you should be able to run nodemon from any location.
+
+This is what i have done on my local machine
+
+C:\>npm config get prefix
+C:\Users\username\AppData\Roaming\npm
+
+C:\>set PATH=%PATH%;C:\Users\username\AppData\Roaming\npm;
+
+C:\>nodemon
+ 31 Jul 22:30:29 - [nodemon] v0.7.8
+ 31 Jul 22:30:29 - [nodemon] to restart at any time, enter `rs`
+ 31 Jul 22:30:29 - [nodemon] watching: C:\
+ 31 Jul 22:30:29 - [nodemon] starting `node `
+ ^CTerminate batch job (Y/N)? Y
+Share
+Improve this answer
+Follow
+answered Jul 31 '13 at 17:01
+
+Chandu
+4,38122 gold badges1515 silver badges1212 bronze badges
+In my case I also had to add '/bin' after this config path, placed the result in .bashrc (using export PATH etc). – PascalVKooten Feb 23 '16 at 18:36 
+sometime Appdata folder is hidden you can just type C:\Users\username\AppData\Roaming\npm in windows folder path. username should be your computer name . – Himanshu sharma Jun 27 '17 at 14:00
+I am not able to install nodemon using yarn. Is it same as npm install -g nodemon ? – Lokesh Pandey Jul 28 '18 at 4:19
+It worked for me when I added the path somewhere in between the existing PATH, did not work when the path was added to the end of PATH variable. Also all the CMD/ Terminal windows need to be restarted. – Siva Aug 10 '19 at 14:31
+@Siva Please follow this link computerhope.com/issues/ch000549.htm for the settings to persist terminal restarts. – Chandu Aug 12 '19 at 12:23
+Add a comment
+
+Report this ad
+
+25
+
+I also got same error as you with this command:
+
+$ sudo npm install -g nodemon
+I just really switched as "root" and then just ran:
+
+$  npm install -g nodemon
+I think npm has a bug to not work with sudo, but it works fine when you are really "root".
+
+Share
+Improve this answer
+Follow
+edited Oct 10 '14 at 4:46
+
+benomatis
+5,05577 gold badges3030 silver badges5151 bronze badges
+answered Oct 10 '14 at 3:59
+
+user1501382
+1,0351313 silver badges1616 bronze badges
+1
+Works for me too. I already had Roaming\npm on my path. It appears that installing npm with the -g is needed on windows. (document says -g or -global is needed to add the bin of the command line utility to the PATH) – arviman Nov 11 '14 at 9:39 
+Add a comment
+
+3
+
+There is a problem with integrated terminal of vs code. when I try in external terminal nodemon works. But in integrated terminal, it gives bash: nodemon: command not found error.
+
+so here is my solution
+
+install nodemon as development dependency
+
+npm install --save-dev nodemon
+and change package.json of the project
+
+"scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "nodemon": "./node_modules/.bin/nodemon"
+  },
+to run nodemon type into terminal in project folder
+
+npm run nodemon
+Share
+Improve this answer
+Follow
+answered Jan 26 '20 at 0:37
+
+mustafa kemal tuna
+49122 silver badges1313 bronze badges
+Add a comment
+
+Report this ad
+
+2
+
+Single line solution In terminal
+
+npm install -g --force nodemon
+
+Share
+Improve this answer
+Follow
+answered Aug 18 '18 at 6:36
+
+Rinold
+19311 gold badge11 silver badge1010 bronze badges
+1
+Thanks, this one really helped! – Endi Haxhi May 18 at 13:48
+Add a comment
+
+1
+
+check out here :-
+
+npm install -g nodemon
+
+and then run
+
+$nodemon server.js
+Share
+Improve this answer
+Follow
+answered Feb 3 '18 at 11:46
+
+Ajay Kumar
+3,4183030 silver badges3535 bronze badges
+1
+This is not a real solution. – JulianSoto Aug 24 '18 at 4:36
+Add a comment
+
+0
+
+Linux users: I would highly suggest not using sudo or root user to install npm packages. This could become a security problem especially on a production system. I would also suggest not trying to hack permissions as I have hosed an Ubuntu system by not reading the warning on the npmjs procedure.
+
+It would be better to configure npm to use a folder owned by the current user. Simplest approach
+
+wget https://raw.githubusercontent.com/pcnate/npm-configure/master/add-npm-global.sh -q -O - | bash
+npm install -g nodemon
+Or get the code script on github to see how it works
+
+See details on the npmjs website
+
+Share
+Improve this answer
+Follow
+edited Aug 29 '16 at 17:36
+answered Aug 26 '16 at 15:21
+
+pcnate
+1,45611 gold badge1515 silver badges3333 bronze badges
+Add a comment
+
+0
+
+On Windows, I was having issues installing nodemon directly from the Command line. Downloaded Cygwin and I was able to npm install nodemon instantly.
+
+Share
+Improve this answer
+Follow
+answered Dec 27 '16 at 13:00
+
+user111
+37733 silver badges1212 bronze badges
+what is the procedure for Mac OS – sriram hegde Oct 16 '17 at 12:27
+Add a comment
+
+0
+
+You can add path to node packages in System Path variable. Add "C:\Users\UserName\AppData\Roaming\npm".
+
+Share
+Improve this answer
+Follow
+answered Mar 8 '17 at 11:26
+
+kapil
+1,69211 gold badge1515 silver badges1212 bronze badges
+Add a comment
+
+0
+
+Mine was I went to Control Panel and Repair the NodeJS app and tried to install again with npm install -g nodemon and now it works. Maybe you mixed up or something with Node.
+
+Share
+Improve this answer
+Follow
+answered Aug 1 '17 at 23:54
+
+Ryan B
+6911 silver badge1313 bronze badges
+Add a comment
+
+0
+
+Even after adding path to System Path variable it did not work for me using nodemon. Then i used npm run serve to run the server. now it is up and running. Btw i am a windows user
+
+Share
+Improve this answer
+Follow
+edited Dec 15 '18 at 18:58
+
+Saksham Dhull
+355 bronze badges
+answered Aug 11 '17 at 11:11
+
+Charitha Goonewardena
+2,75511 gold badge2626 silver badges3030 bronze badges
+Add a comment
+
+0
+
+This command worked for me.
+
+If your global installation didn't work then install it in your development dependency.
+
+npm install --save-dev nodemon
+Share
+Improve this answer
+Follow
+answered Feb 7 '19 at 16:59
+
+Bhanu Sengar
+37222 silver badges1010 bronze badges
+Add a comment
+
+0
+
+Updated
+
+After Path settings we also need to type in the following commands
+
+Set-ExecutionPolicy Unrestricted
+what this command enables running scripts on the system
+
+Share
+Improve this answer
+Follow
+answered Jul 23 '20 at 7:54
+
+warmachine
+35411 silver badge66 bronze badges
+Add a comment
+
+-1
+
+had the same problem otherwise was just working fine a day ago. Very simple fix first check if nodemon exists on your system globally or not
+
+To check
+
+npm list -g --depth=0
+If you don't see then install it npm install -g nodemon (g stands for globally)
+If you see it still doesn't work then you need to configure environment variable I use Windows OS. On Windows navigate to
+
+Control panel>System>Advanced System Settings>Environment Variables>double-click on PATH
+Now check if you have this PATH C:\Users\yourUsername\AppData\Roaming\npm
+If not, you will see some existing paths, just append to it separating with semicolon. That's it! Worked for me. For me node was installed in C:..\Roaming\npm and for you if the PATH is different, you will put in whatever applcable.
